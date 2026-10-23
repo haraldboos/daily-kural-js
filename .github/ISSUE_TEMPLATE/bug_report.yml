@@ -1,0 +1,32 @@
+name: Bug report
+description: Something in daily-kural-js does not work the way the docs describe.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: snippet
+    attributes:
+      label: Smallest example
+      description: HTML, JavaScript, or the CLI command.
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: daily-kural-js version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: runtime
+    attributes:
+      label: Browser or Node version
+      placeholder: Node 22, or Firefox 130
+    validations:
+      required: true

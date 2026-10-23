@@ -1,0 +1,33 @@
+/* OFL licensed Noto Tamil subsets. See OFL.txt. */
+@font-face {
+  font-family: "Noto Serif Tamil";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./noto-serif-tamil-400.woff2") format("woff2");
+  unicode-range: U+0B80-0BFF;
+}
+@font-face {
+  font-family: "Noto Serif Tamil";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./noto-serif-tamil-700.woff2") format("woff2");
+  unicode-range: U+0B80-0BFF;
+}
+@font-face {
+  font-family: "Noto Sans Tamil";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./noto-sans-tamil-400.woff2") format("woff2");
+  unicode-range: U+0B80-0BFF;
+}
+@font-face {
+  font-family: "Noto Sans Tamil";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./noto-sans-tamil-700.woff2") format("woff2");
+  unicode-range: U+0B80-0BFF;
+}

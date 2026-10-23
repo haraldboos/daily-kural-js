@@ -1,0 +1,117 @@
+{
+  "name": "daily-kural-js",
+  "version": "0.1.0",
+  "description": "Zero-dependency Thirukkural (திருக்குறள்) for the browser and Node: kural of the day, filters, search, a <daily-kural> element, and a CLI.",
+  "keywords": [
+    "thirukkural",
+    "tirukkural",
+    "thirukural",
+    "tamil",
+    "kural",
+    "திருக்குறள்",
+    "daily-quote",
+    "web-component"
+  ],
+  "license": "MIT",
+  "author": "Abilash",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haraldboos/daily-kural-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haraldboos/daily-kural-js/issues"
+  },
+  "homepage": "https://haraldboos.github.io/daily-kural-js/",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "dist/daily-kural.min.js",
+  "jsdelivr": "dist/daily-kural.min.js",
+  "sideEffects": [
+    "./dist/daily-kural.min.js",
+    "./dist/daily-kural.bundled.min.js",
+    "./dist/element.mjs",
+    "./dist/element.cjs",
+    "./fonts/fonts.css",
+    "*.css"
+  ],
+  "typesVersions": {
+    "*": {
+      "element": [
+        "./dist/element.d.ts"
+      ],
+      "fonts.css": [
+        "./fonts/fonts.css.d.cts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./element": {
+      "import": {
+        "types": "./dist/element.d.mts",
+        "default": "./dist/element.mjs"
+      },
+      "require": {
+        "types": "./dist/element.d.cts",
+        "default": "./dist/element.cjs"
+      }
+    },
+    "./fonts.css": {
+      "import": {
+        "types": "./fonts/fonts.css.d.mts",
+        "default": "./fonts/fonts.css"
+      },
+      "require": {
+        "types": "./fonts/fonts.css.d.cts",
+        "default": "./fonts/fonts.css"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "fonts",
+    "element",
+    "README.md",
+    "USER_MANUAL.md",
+    "LICENSE",
+    "NOTICE",
+    "CHANGELOG.md"
+  ],
+  "bin": {
+    "daily-kural": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "vitest run",
+    "lint": "node scripts/lint.mjs",
+    "prepublishOnly": "npm test && npm run build",
+    "size": "node scripts/size.mjs",
+    "sri": "node scripts/sri.mjs",
+    "fonts": "node scripts/fetch-fonts.mjs",
+    "demo": "python3 -m http.server 8080",
+    "pages": "node scripts/pages.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.10",
+    "vitest": "^3.2.4"
+  }
+}

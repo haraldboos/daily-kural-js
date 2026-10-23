@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>திருக்குறள் — daily-kural-js</title>
+  <link rel="stylesheet" href="../fonts/fonts.css">
+  <style>
+    :root {
+      --dk-font-tamil: "Noto Serif Tamil", "Noto Sans Tamil", "Latha", "Nirmala UI", "Tamil Sangam MN", "Lohit Tamil", serif;
+      --dk-font-latin: "Iowan Old Style", Palatino, Georgia, serif;
+      --dk-bg: #f3ecdf;
+      --dk-fg: #2b241c;
+      --dk-muted: #6e6256;
+      --dk-card: #fffaf3;
+      --dk-border: #e4d7c6;
+      --dk-accent: #8f3d22;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"] {
+      --dk-bg: #14110f;
+      --dk-fg: #f6efe6;
+      --dk-muted: #cbbba8;
+      --dk-card: #1b1613;
+      --dk-border: #3d332b;
+      --dk-accent: #e0a070;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--dk-bg);
+      color: var(--dk-fg);
+      font-family: var(--dk-font-latin);
+      line-height: 1.55;
+    }
+    header, main, footer { width: min(1080px, calc(100% - 1.5rem)); margin: 0 auto; }
+    header { padding: 1.5rem 0 0.5rem; display: flex; justify-content: space-between; gap: 1rem; align-items: end; }
+    h1 { font-family: var(--dk-font-tamil); font-weight: 400; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.7; letter-spacing: normal; margin: 0; }
+    header p { margin: 0.2rem 0 0; color: var(--dk-muted); }
+    button, input, select { font: inherit; color: inherit; }
+    button, .toggle {
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--dk-border);
+      background: var(--dk-card);
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+    }
+    button.primary { background: var(--dk-accent); color: #fffaf3; border-color: transparent; }
+    :root[data-theme="dark"] button.primary { color: #1b1613; }
+    main { display: grid; gap: 1rem; padding-bottom: 2rem; }
+    @media (min-width: 960px) {
+      main { grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr); align-items: start; }
+    }
+    .panel, .embed {
+      background: var(--dk-card);
+      border: 1px solid var(--dk-border);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+    .panel h2, .embed h2 { font-size: 1.05rem; margin: 0 0 0.75rem; }
+    label { display: grid; gap: 0.25rem; font-size: 0.85rem; color: var(--dk-muted); margin-bottom: 0.55rem; }
+    input, select {
+      min-height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--dk-border);
+      background: var(--dk-bg);
+      padding: 0.4rem 0.7rem;
+      width: 100%;
+    }
+    #paal, #iyal, #chapter { font-family: var(--dk-font-tamil); line-height: 1.7; letter-spacing: normal; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    #count { font-variant-numeric: tabular-nums; }
+    #count.error { color: #9b2c2c; }
+    #results { display: grid; gap: 0.6rem; margin-top: 0.8rem; }
+    .hit {
+      text-align: start;
+      width: 100%;
+      border-radius: 12px;
+      padding: 0.7rem 0.8rem;
+    }
+    .hit strong { font-family: var(--dk-font-tamil); font-weight: 400; font-size: 1.15rem; line-height: 1.7; letter-spacing: normal; display: block; }
+    footer { color: var(--dk-muted); font-size: 0.9rem; padding-bottom: 2rem; }
+    :focus-visible { outline: 2px solid var(--dk-accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 lang="ta">திருக்குறள்</h1>
+      <p>Kural of the day, a filter you can share, and the whole book.</p>
+    </div>
+    <button id="theme" type="button" class="toggle">Dark theme</button>
+  </header>
+  <main>
+    <daily-kural
+      id="reader"
+      mode="daily"
+      lang="both"
+      commentary="all"
+      theme="light"
+      load-fonts="self"
+      show-transliteration
+      show-translation
+      show-meta
+      sync-url
+    ></daily-kural>
+    <div>
+      <section class="panel" aria-labelledby="filter-heading">
+        <h2 id="filter-heading">Filter</h2>
+        <p id="count">…</p>
+        <label>number <input id="number" inputmode="numeric" placeholder="12"></label>
+        <label>numbers <input id="numbers" placeholder="1,5,100"></label>
+        <label>range <input id="range" placeholder="1-50"></label>
+        <label>paal <input id="paal" lang="ta" placeholder="அறத்துப்பால், Virtue, 1"></label>
+        <label>iyal <input id="iyal" lang="ta" placeholder="பாயிரவியல் or 1"></label>
+        <label>chapter <input id="chapter" lang="ta" placeholder="கடவுள் வாழ்த்து or 1"></label>
+        <label>exclude <input id="exclude" placeholder="3,4"></label>
+        <div class="row">
+          <button id="apply" class="primary" type="button">Apply filter</button>
+          <button id="clear" type="button">Clear</button>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="search-heading" style="margin-top: 1rem">
+        <h2 id="search-heading">Search</h2>
+        <label>Query <input id="query" lang="ta" placeholder="அகர or eternal"></label>
+        <button id="search" type="button">Search inside the filter</button>
+        <div id="results"></div>
+      </section>
+      <section class="embed" aria-labelledby="embed-heading" style="margin-top: 1rem">
+        <h2 id="embed-heading">Embed</h2>
+        <p>One script tag and a placeholder. This one is அறத்துப்பால் only.</p>
+        <div data-daily-kural data-mode="daily" data-filter="paal=1" data-load-fonts="self" data-commentary="mv" data-lang="both"></div>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <p>Text from <a href="https://github.com/tk120404/thirukkural">tk120404/thirukkural</a> (Apache-2.0). Fonts: Noto Serif Tamil and Noto Sans Tamil (OFL).</p>
+  </footer>
+  <script src="../dist/daily-kural.bundled.min.js"></script>
+  <script>
+    const reader = document.querySelector('#reader');
+    const countEl = document.querySelector('#count');
+    const fields = ['number', 'numbers', 'range', 'paal', 'iyal', 'chapter', 'exclude'];
+
+    function readFilter() {
+      const filter = {};
+      for (const key of fields) {
+        const value = document.querySelector('#' + key).value.trim();
+        if (value) filter[key] = value;
+      }
+      return filter;
+    }
+
+    function showCount() {
+      try {
+        const total = DailyKural.count({ filter: readFilter() });
+        countEl.className = '';
+        countEl.textContent = total === 1 ? '1 kural' : total + ' kurals';
+      } catch (err) {
+        countEl.className = 'error';
+        const message = err && err.message ? err.message : String(err);
+        countEl.textContent = message.length > 280 ? message.slice(0, 280) + '…' : message;
+      }
+    }
+
+    document.querySelector('#apply').addEventListener('click', () => {
+      reader.filter = readFilter();
+      showCount();
+    });
+    document.querySelector('#clear').addEventListener('click', () => {
+      for (const key of fields) document.querySelector('#' + key).value = '';
+      reader.filter = {};
+      showCount();
+    });
+    for (const key of fields) {
+      document.querySelector('#' + key).addEventListener('input', showCount);
+    }
+
+    document.querySelector('#search').addEventListener('click', () => {
+      const results = document.querySelector('#results');
+      results.textContent = '';
+      const query = document.querySelector('#query').value;
+      let page;
+      try {
+        page = DailyKural.search(query, { filter: readFilter(), limit: 8 });
+      } catch (err) {
+        const p = document.createElement('p');
+        p.textContent = err.message;
+        results.appendChild(p);
+        return;
+      }
+      if (!page.items.length) {
+        const p = document.createElement('p');
+        p.textContent = 'No matches.';
+        results.appendChild(p);
+        return;
+      }
+      for (const kural of page.items) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'hit';
+        const title = document.createElement('strong');
+        title.lang = 'ta';
+        title.textContent = kural.Number + '. ' + kural.Line1;
+        const sub = document.createElement('span');
+        sub.textContent = kural.Translation;
+        button.append(title, sub);
+        button.addEventListener('click', () => {
+          reader.showKural(kural.Number);
+          reader.scrollIntoView({ block: 'start' });
+        });
+        results.appendChild(button);
+      }
+    });
+
+    const themeButton = document.querySelector('#theme');
+    themeButton.addEventListener('click', () => {
+      const dark = document.documentElement.dataset.theme !== 'dark';
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      reader.setAttribute('theme', dark ? 'dark' : 'light');
+      themeButton.textContent = dark ? 'Light theme' : 'Dark theme';
+    });
+
+    DailyKural.init().then(showCount).catch((err) => {
+      countEl.className = 'error';
+      countEl.textContent = err.message;
+    });
+  </script>
+</body>
+</html>

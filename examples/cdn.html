@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>திருக்குறள் — daily-kural-js</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/daily-kural-js@0.1.0/fonts/fonts.css"
+    integrity="sha384-1b+0RBcX7Cr8rSeKT1RxNWjUC2Q2tou4KL/HK4Jm2U3FNm35WD9rdM+FCZOtw76Y"
+    crossorigin="anonymous">
+  <style>
+    body {
+      margin: 0;
+      background: #f6f1e7;
+      color: #2b241c;
+      font-family: Georgia, "Iowan Old Style", serif;
+    }
+    main {
+      width: min(44rem, calc(100% - 1.5rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 2rem;
+    }
+    h1 {
+      font-family: "Noto Serif Tamil", "Noto Sans Tamil", serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.7;
+      margin: 0 0 0.25rem;
+    }
+    p { margin-top: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>திருக்குறள்</h1>
+    <p>Today's kural, loaded only from jsDelivr.</p>
+    <daily-kural
+      mode="daily"
+      lang="both"
+      theme="light"
+      timezone="Asia/Kolkata"
+      load-fonts="self"
+      font-base="https://cdn.jsdelivr.net/npm/daily-kural-js@0.1.0/fonts/"
+      show-translation
+      show-meta
+    ></daily-kural>
+  </main>
+  <script
+    src="https://cdn.jsdelivr.net/npm/daily-kural-js@0.1.0/dist/daily-kural.min.js"
+    integrity="sha384-TDofA9os2y9uduCSZg/dj5mF1ForeFUgmhrnKZbKsqlKpHgMltdoqRk7UxnEOdMr"
+    crossorigin="anonymous"></script>
+</body>
+</html>
